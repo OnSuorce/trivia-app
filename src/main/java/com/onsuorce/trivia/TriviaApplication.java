@@ -4,6 +4,7 @@ import com.onsuorce.trivia.dao.CategoryDao;
 import com.onsuorce.trivia.dao.QuestionDao;
 import com.onsuorce.trivia.entity.Category;
 import com.onsuorce.trivia.entity.Question;
+import com.onsuorce.trivia.enums.AnswerTypes;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,7 +38,6 @@ public class TriviaApplication {
 
 			qdao.insert(q);
 			System.out.println("SOSOSOOSOS");
-
 
 		};
 

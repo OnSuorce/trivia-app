@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class Question {
     private String question;
     private String answer;
 
+    @DBRef
     private Category  category;
     private LocalDate dateOfCreation;
 
