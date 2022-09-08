@@ -9,5 +9,6 @@ public enum AnswerTypes {
     MULTIPLE,
     RANGE,
     DATE,
+    POINTS,
     GREATERTHAN
 }
