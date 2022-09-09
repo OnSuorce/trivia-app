@@ -11,7 +11,7 @@ public class BasicAnswer extends Answer<String> {
 
     @Builder
     public BasicAnswer(String answer, List<String> options) {
-        super.setAnswer(answer);
+        super.setValue(answer);
         super.setOptions(options);
     }
 
@@ -23,7 +23,7 @@ public class BasicAnswer extends Answer<String> {
 
         BasicAnswer that = (BasicAnswer) o;
 
-       if (!that.getAnswer().equals(super.getAnswer())) return false;
+       if (!that.getValue().equals(super.getValue())) return false;
 
        if (!that.getOptions().equals(super.getOptions())) return false;
 

@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+//TODO: Implement daos
 @SpringBootApplication
 public class TriviaApplication {
 

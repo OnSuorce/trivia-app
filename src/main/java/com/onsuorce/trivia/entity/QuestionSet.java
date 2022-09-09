@@ -1,7 +1,5 @@
 package com.onsuorce.trivia.entity;
 
-//TODO: Build this document
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;

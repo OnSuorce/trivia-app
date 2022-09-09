@@ -8,11 +8,11 @@ import java.util.List;
 @Data
 public abstract class Answer<T> {
 
-    private T answer;
+    private T value;
     private AnswerTypes type;
     private List<String> options;
 
     public boolean validateAnswer(T guess){
-        return guess.equals(answer);
+        return guess.equals(value);
     }
 }
