@@ -1,19 +1,8 @@
 package com.onsuorce.trivia;
 
-import com.onsuorce.trivia.dao.CategoryDao;
-import com.onsuorce.trivia.dao.QuestionDao;
-import com.onsuorce.trivia.entity.Category;
-import com.onsuorce.trivia.entity.Question;
-import com.onsuorce.trivia.entity.pojo.answers.BasicAnswer;
-import com.onsuorce.trivia.enums.AnswerTypes;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 //TODO: Implement daos
 @SpringBootApplication
 public class TriviaApplication {
@@ -23,7 +12,7 @@ public class TriviaApplication {
 	}
 
 
-	@Bean
+/*	@Bean
 	CommandLineRunner runner(QuestionDao qdao, CategoryDao cdao){
 		return  args -> {
 			Category c = Category.builder()
@@ -31,17 +20,16 @@ public class TriviaApplication {
 					.description("Generic questions")
 					.build();
 			cdao.insert(c);
-			List<String> options = new ArrayList<>();
+			List<String> options = new ArrayList<String>();
 			options.add("2019");
 			options.add("2021");
-			BasicAnswer ba = BasicAnswer.builder()
-					.answer("2022")
-					.options(options)
-					.build();
+			Answer<String> a = new Answer<String>("2022", AnswerTypes.BASIC);
+			a.setOptions(options);
+
 
 			Question q =  Question.builder()
 					.questionTitle("What is the current year?")
-					.answer(ba )
+					.answer(a)
 					.dateOfCreation(LocalDate.now())
 					.category(c)
 					.build();
@@ -51,5 +39,5 @@ public class TriviaApplication {
 
 		};
 
-	}
+	}*/
 }

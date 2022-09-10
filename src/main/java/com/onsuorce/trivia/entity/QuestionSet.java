@@ -4,7 +4,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @Builder
@@ -13,9 +15,9 @@ public class QuestionSet {
     @Id
     private String id;
 
-    @NonNull
-    private String name;
+    @Indexed(unique = true)
+    @Field("set_name")
+    private String setName;
 
-    @NonNull
     private String description;
 }

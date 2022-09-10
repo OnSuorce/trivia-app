@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,15 +22,13 @@ public class Question {
 
     @Id
     private String id;
-    @NonNull
+
     private String questionTitle;
-    @NonNull
     private Answer answer;
 
-    @NonNull
-    private UUID uuid;
+    @Indexed(unique = true)
+    private String uuid;
 
-    @NonNull
     @DBRef
     private Category  category;
     private LocalDate dateOfCreation;
