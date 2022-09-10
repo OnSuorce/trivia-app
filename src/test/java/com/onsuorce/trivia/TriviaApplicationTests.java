@@ -12,12 +12,5 @@ import java.util.UUID;
 @SpringBootTest
 class TriviaApplicationTests {
 
-	@Autowired
-	QuestionService questionService;
-	@Test
-	void contextLoads() {
-
-
-	}
 
 }
