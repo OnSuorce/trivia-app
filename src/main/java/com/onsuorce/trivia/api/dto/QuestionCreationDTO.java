@@ -1,6 +1,5 @@
 package com.onsuorce.trivia.api.dto;
 
-import com.onsuorce.trivia.entity.pojo.answers.Answer;
 import lombok.Data;
 
 import java.util.List;
@@ -10,7 +9,9 @@ public class QuestionCreationDTO {
 
     private String questionTitle;
     private String categoryName;
+    private String questionSet;
     private String answerValue;
+    private String answerType;
     private List<String> options;
 
 

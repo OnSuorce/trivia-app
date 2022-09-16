@@ -1,9 +1,12 @@
 package com.onsuorce.trivia.service;
 
+import com.onsuorce.trivia.api.dto.AnswerResponseDTO;
+import com.onsuorce.trivia.dao.CategoryRepository;
 import com.onsuorce.trivia.dao.QuestionRepository;
+import com.onsuorce.trivia.entity.Category;
 import com.onsuorce.trivia.entity.Question;
 import com.onsuorce.trivia.entity.pojo.answers.Answer;
-import com.onsuorce.trivia.exceptions.QuestionCreationException;
+import com.onsuorce.trivia.exceptions.QuestionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +19,21 @@ public class QuestionService {
 
     @Autowired
     QuestionRepository questionDao;
-    public void createNewQuestion(String questionTitle,Answer<?> answer,String categoryId)throws QuestionCreationException{
-        if(questionTitle == null || questionTitle.isEmpty() || questionTitle.isBlank()) throw new QuestionCreationException("Question text cannot be empty");
-        //TODO: Add answer creation logic
 
-        //TODO add category lookup
+    @Autowired
+    CategoryRepository categoryDao;
+    public void createNewQuestion(String questionTitle,Answer answer,String categoryName)throws QuestionException {
+        if(questionTitle == null || questionTitle.isEmpty() || questionTitle.isBlank()) throw new QuestionException("Question text cannot be empty");
+        //TODO: Add answer checks logic
+        if(answer.getType() == null) throw new QuestionException("Answer type not valid");
+
+        Category category = categoryDao.findByCategoryName(categoryName);
+        if(category==null) throw new QuestionException("Category not valid");
 
         Question question = Question.builder()
                 .questionTitle(questionTitle)
-                .category(null)
+                .answer(answer)
+                .category(category)
                 .build();
 
         createNewQuestion(question);
@@ -38,13 +47,29 @@ public class QuestionService {
 
     }
 
-    public void answerQuestion(Question question, Answer answer){
-        question.getAnswer().validateAnswer(answer);
+    public AnswerResponseDTO answerQuestion(String questionUuid, String answer) throws QuestionException{
+        Question question = retrieveQuestion(questionUuid);
+        if(question == null) throw new QuestionException("Question not found. UUID may incorrect");
+
+        AnswerResponseDTO result = new AnswerResponseDTO();
+        result.setMatched(false);
+        if(question.getAnswer().validateAnswer(answer)){
+            result.setAnswerValue(question.getAnswer().getValue());
+            result.setMatched(true);
+        }
+        result.setGuess(answer);
+        result.setPoints(0.0);
+
+        return result;
     }
 
     public Question retrieveQuestion(UUID uuid){
         return questionDao.findByUuid(uuid.toString());
     }
-        //TODO: Add implementation
+
+    public Question retrieveQuestion(String uuid){
+        return retrieveQuestion(UUID.fromString(uuid));
+    }
+
 
 }

@@ -18,6 +18,7 @@ public class Category {
     @Field("category_name")
     private String categoryName;
 
+    @Field("question_set")
     @Indexed(unique = true)
     private String questionSet;
 
