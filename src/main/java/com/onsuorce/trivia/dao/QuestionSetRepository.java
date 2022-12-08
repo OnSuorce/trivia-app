@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuestionSetRepository extends MongoRepository<QuestionSet, String> {
 
-    Category findBySetName(String setName);
+    QuestionSet findBySetName(String setName);
 }

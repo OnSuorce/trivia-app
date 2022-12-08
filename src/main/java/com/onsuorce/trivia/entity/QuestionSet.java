@@ -19,4 +19,13 @@ public class QuestionSet {
     private String setName;
 
     private String description;
+
+    @Override
+    public String toString() {
+        return "QuestionSet{" +
+                "id='" + id + '\'' +
+                ", setName='" + setName + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
