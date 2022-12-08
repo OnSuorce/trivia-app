@@ -71,7 +71,7 @@ public class QuestionController {
 
             Answer answer = new Answer(body.getAnswerValue(),AnswerTypes.valueOf(body.getAnswerType()));
 
-            if( body.getOptions()!=null && !body.getOptions().isEmpty()){
+            if( body.getOptions()!= null && !body.getOptions().isEmpty()){
                 answer.setOptions(body.getOptions());
             }
 
