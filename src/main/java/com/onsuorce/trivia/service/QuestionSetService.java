@@ -17,9 +17,12 @@ public class QuestionSetService {
     //TODO: Create exception
     public void createQuestionSet(String name, String description) throws QuestionSetException {
 
-        if(name == null || name.isEmpty() || getQuestionSet(name) != null){
+        if(name == null || name.isEmpty()){
+            throw new QuestionSetException("Name cannot be null");
+        }
 
-            return;
+        if(getQuestionSet(name) != null){
+            throw new QuestionSetException("Name is already in use");
         }
 
         questionSetDao.insert(
@@ -31,22 +34,24 @@ public class QuestionSetService {
         log.info("Question set {} persisted", name);
     }
 
-    private QuestionSet getQuestionSet(String qsName) throws QuestionSetException {
-        QuestionSet qs = questionSetDao.findBySetName(qsName);
-        if(qs == null){
-            //TODO: Throw custom exception
+    private QuestionSet getQuestionSet(String qsName) {
+       return questionSetDao.findBySetName(qsName);
+        /*if(qs == null){
+
             log.error("Error while retrieving question set with name: {}",qsName);
             throw new QuestionSetException("Question set doesn't exists");
-        }
-        return qs;
+        }*/
     }
 
-    public QuestionSet retrieveQuestionSet(String qsName) throws QuestionSetException {
+    public QuestionSet retrieveQuestionSet(String qsName) {
         return getQuestionSet(qsName);
     }
 
     public void updateQuestionSet(QuestionSet newQs) throws QuestionSetException {
         QuestionSet oldQs = getQuestionSet(newQs.getSetName());
+        oldQs.setDescription(newQs.getDescription());
+        questionSetDao.save(oldQs);
+        log.info("Question set {} updated",oldQs.getSetName());
 
     }
 

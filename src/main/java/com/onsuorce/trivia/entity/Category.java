@@ -3,7 +3,7 @@ package com.onsuorce.trivia.entity;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -18,9 +18,9 @@ public class Category {
     @Field("category_name")
     private String categoryName;
 
+    @DBRef
     @Field("question_set")
-    @Indexed(unique = true)
-    private String questionSet;
+    private QuestionSet questionSet;
 
     private String description;
 }
