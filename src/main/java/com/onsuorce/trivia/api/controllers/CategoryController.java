@@ -6,16 +6,17 @@ import com.onsuorce.trivia.service.CategoryService;
 import com.onsuorce.trivia.service.QuestionSetService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.Update;
+
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/{qs}/category")
 @Log4j2
+@SuppressWarnings("unused")
 public class CategoryController {
     @Autowired
     CategoryService service;
@@ -26,7 +27,7 @@ public class CategoryController {
     public List<CategoryDTO> getCategoryList(@PathVariable String qs){
         //TODO: Make better error handling
 
-        return service.retrieveCategoryList(qsService.retrieveQuestionSet(qs)).stream().map(i -> categoryToDTO(i))
+        return service.retrieveCategoryList(qsService.retrieveQuestionSet(qs)).stream().map(this::categoryToDTO)
                 .collect(Collectors.toList());
     }
 

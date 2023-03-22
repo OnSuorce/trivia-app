@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("api/")
 @Log4j2
+@SuppressWarnings("unused")
 public class QuestionController {
     @Autowired
     QuestionService questionService;
@@ -28,7 +29,7 @@ public class QuestionController {
 
     @PostMapping(path = "question/{uuid}/answer")
     public AnswerDTO getQuestionAnswer(@PathVariable String uuid, @RequestBody AnswerGuess answer){
-        AnswerDTO a = null;
+        AnswerDTO a;
         Question q = questionService.retrieveQuestion(uuid);
         if(questionService.answerQuestion(q, answer.guess())){
             a = new AnswerDTO(true,q.getAnswer().getOptions(), q.getAnswer().getType());

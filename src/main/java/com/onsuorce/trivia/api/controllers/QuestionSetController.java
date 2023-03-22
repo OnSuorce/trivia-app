@@ -7,20 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/questionset")
 @Log4j2
+@SuppressWarnings("unused")
 public class QuestionSetController {
 
     @Autowired
     QuestionSetService service;
 
     @PostMapping()
-    public void postQuestionSet(@RequestBody QuestionSetDTO body,  HttpServletResponse response) throws IOException {
+    public void postQuestionSet(@RequestBody QuestionSetDTO body,  HttpServletResponse response){
 
             service.createQuestionSet(body.getSetName(), body.getDescription());
     }

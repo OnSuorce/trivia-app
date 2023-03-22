@@ -3,7 +3,6 @@ package com.onsuorce.trivia;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-//TODO: Implement daos
 @SpringBootApplication
 public class TriviaApplication {
 
