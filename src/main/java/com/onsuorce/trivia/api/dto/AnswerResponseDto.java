@@ -1,16 +1,17 @@
 package com.onsuorce.trivia.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-public class AnswerResponseDTO {
+@AllArgsConstructor
+public class AnswerResponseDto {
 
+    @JsonProperty("guess")
     private String guess;
+    @JsonProperty("matched")
     private Boolean matched;
+    @JsonProperty("points")
     private Double points;
-    private String answerValue;
 }

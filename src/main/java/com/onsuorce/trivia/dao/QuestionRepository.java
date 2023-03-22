@@ -1,5 +1,6 @@
 package com.onsuorce.trivia.dao;
 
+import com.onsuorce.trivia.entity.Category;
 import com.onsuorce.trivia.entity.Question;
 import com.onsuorce.trivia.enums.AnswerTypes;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -15,7 +16,7 @@ public interface QuestionRepository extends MongoRepository<Question, String> {
 
     Question findByUuid(String uuid);
 
-    List<Question> findByCategory(String category);
+    List<Question> findByCategory(Category category);
 
     @Query("{'answer.type' : '#answerType'}")
     List<Question> findByAnswerType(@Param("answerType") AnswerTypes answerType);

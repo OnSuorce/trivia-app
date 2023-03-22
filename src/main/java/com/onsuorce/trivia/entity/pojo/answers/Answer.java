@@ -1,26 +1,37 @@
 package com.onsuorce.trivia.entity.pojo.answers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.onsuorce.trivia.enums.AnswerTypes;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 
 @Data
-@RequiredArgsConstructor
 public class Answer {
-
-    @JsonIgnore
-    private final String value;
     private final AnswerTypes type;
-    private List<String> options;
+    private List<Option> options;
 
-    public boolean validateAnswer(Answer guess){
-        return guess.getValue().equals(value);
+    public Answer(AnswerTypes type) {
+        this.type = type;
     }
+
 
     public boolean validateAnswer(String guess){
-        return guess.equals(value);
+        AtomicBoolean guessed = new AtomicBoolean(false);
+        options.forEach(option -> {
+            if(option.getCorrect() && option.getValue().equals(guess)){
+            guessed.set(true);
+            }
+        });
+
+        return guessed.get();
     }
+
+    public AnswerTypes getType() {
+        return type;
+    }
+
+
 }

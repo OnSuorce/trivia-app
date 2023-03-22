@@ -1,19 +1,25 @@
 package com.onsuorce.trivia.service;
 
-import com.onsuorce.trivia.api.dto.AnswerResponseDTO;
+import com.onsuorce.trivia.api.dto.AnswerDTO;
 import com.onsuorce.trivia.dao.CategoryRepository;
 import com.onsuorce.trivia.dao.QuestionRepository;
 import com.onsuorce.trivia.entity.Category;
 import com.onsuorce.trivia.entity.Question;
+import com.onsuorce.trivia.entity.QuestionSet;
 import com.onsuorce.trivia.entity.pojo.answers.Answer;
+import com.onsuorce.trivia.exceptions.AnswerExceptions;
+import com.onsuorce.trivia.exceptions.Category.CategoryNotFoundException;
 import com.onsuorce.trivia.exceptions.QuestionException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
-
+@Log4j2
 @Service
 public class QuestionService {
 
@@ -21,22 +27,39 @@ public class QuestionService {
     QuestionRepository questionDao;
 
     @Autowired
-    CategoryRepository categoryDao;
-    public void createNewQuestion(String questionTitle,Answer answer,String categoryName)throws QuestionException {
+    CategoryService categoryService;
+
+    @Autowired
+    QuestionSetService questionSetService;
+    public void createNewQuestion(String questionTitle,AnswerDTO answer,String categoryName, String qs) {
         if(questionTitle == null || questionTitle.isEmpty() || questionTitle.isBlank()) throw new QuestionException("Question text cannot be empty");
-        //TODO: Add answer checks logic
-        if(answer.getType() == null) throw new QuestionException("Answer type not valid");
 
-        Category category = categoryDao.findByCategoryName(categoryName);
-        if(category==null) throw new QuestionException("Category not valid");
+        Category category = categoryService.retrieveCategory(categoryName, questionSetService.retrieveQuestionSet(qs));
 
-        Question question = Question.builder()
-                .questionTitle(questionTitle)
-                .answer(answer)
-                .category(category)
-                .build();
 
+        Question question = null;
+        try {
+            question = Question.builder()
+                    .questionTitle(questionTitle)
+                    .answer(AnswerFactory.instantiateAnswer(answer))
+                    .category(category)
+                    .dateOfCreation(LocalDate.now())
+                    .build();
+
+        } catch (Exception e) {
+            throw new AnswerExceptions(e.getMessage());
+        }
         createNewQuestion(question);
+    }
+
+
+
+    public List<Question> questionList(String qs, String category){
+
+        return questionDao.findByCategory(
+                categoryService.retrieveCategory(category,
+                        questionSetService.retrieveQuestionSet(qs))
+        );
 
     }
     private void createNewQuestion(Question question){
@@ -47,20 +70,16 @@ public class QuestionService {
 
     }
 
-    public AnswerResponseDTO answerQuestion(String questionUuid, String answer) throws QuestionException{
+    public boolean answerQuestion(String questionUuid, String guess) throws QuestionException{
+
         Question question = retrieveQuestion(questionUuid);
-        if(question == null) throw new QuestionException("Question not found. UUID may incorrect");
+        return answerQuestion(question, guess);
+    }
 
-        AnswerResponseDTO result = new AnswerResponseDTO();
-        result.setMatched(false);
-        if(question.getAnswer().validateAnswer(answer)){
-            result.setAnswerValue(question.getAnswer().getValue());
-            result.setMatched(true);
-        }
-        result.setGuess(answer);
-        result.setPoints(0.0);
+    public boolean answerQuestion(Question question, String guess) throws QuestionException{
 
-        return result;
+        return question.getAnswer().validateAnswer(guess);
+
     }
 
     public Question retrieveQuestion(UUID uuid){

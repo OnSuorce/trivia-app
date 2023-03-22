@@ -6,12 +6,13 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends MongoRepository<Category, String> {
 
-    Category findByCategoryName(String categoryName);
+    Optional<Category> findByCategoryName(String categoryName);
 
-    Category findByCategoryNameAndQuestionSet(String categoryName, QuestionSet qs);
+   Optional<Category> findByCategoryNameAndQuestionSet(String categoryName, QuestionSet qs);
     List<Category> findByQuestionSet(QuestionSet qs);
 }

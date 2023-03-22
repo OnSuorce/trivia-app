@@ -1,15 +1,15 @@
 package com.onsuorce.trivia.api.controllers;
 
 import com.onsuorce.trivia.api.dto.QuestionSetDTO;
-import com.onsuorce.trivia.exceptions.QuestionSetException;
 import com.onsuorce.trivia.service.QuestionSetService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/questionset")
@@ -21,40 +21,24 @@ public class QuestionSetController {
 
     @PostMapping()
     public void postQuestionSet(@RequestBody QuestionSetDTO body,  HttpServletResponse response) throws IOException {
-        try {
 
             service.createQuestionSet(body.getSetName(), body.getDescription());
-
-        } catch (QuestionSetException e) {
-            response.setStatus((HttpStatus.BAD_REQUEST.value()));
-            response.getWriter().print(e.getMessage());
-        }
     }
 
     @GetMapping("/{name}")
-    public QuestionSetDTO getQuestionSet(@PathVariable String name,HttpServletResponse response) throws IOException {
-        QuestionSetDTO  responseDto = null;
-        try {
+    public QuestionSetDTO getQuestionSet(@PathVariable String name){
+        return new QuestionSetDTO(service.retrieveQuestionSet(name));
+    }
 
-            responseDto = new QuestionSetDTO(service.retrieveQuestionSet(name));
-            if (responseDto == null) throw new NullPointerException("Question set doesn't exist");
-        }catch (NullPointerException e){
-
-            response.setStatus((HttpStatus.NOT_FOUND.value()));
-            response.getWriter().print(e.getMessage());
-        }
-        return responseDto;
+    @GetMapping()
+    public List<QuestionSetDTO> getQuestionSetList(){
+        return service.questionSetList().stream()
+                .map( i -> new QuestionSetDTO(i.getSetName(),i.getDescription())).collect(Collectors.toList());
     }
 
     @DeleteMapping("/{name}")
-    public void deleteQuestionSet(@PathVariable String name,HttpServletResponse response) throws IOException{
+    public void deleteQuestionSet(@PathVariable String name) {
+        service.deleteQuestionSet(service.retrieveQuestionSet(name));
 
-        try {
-            service.deleteQuestionSet(service.retrieveQuestionSet(name));
-        } catch (QuestionSetException e) {
-
-            response.setStatus((HttpStatus.NOT_FOUND.value()));
-            response.getWriter().print(e.getMessage());
-        }
     }
 }

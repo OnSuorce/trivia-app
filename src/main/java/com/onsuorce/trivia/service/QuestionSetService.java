@@ -7,6 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Log4j2
 public class QuestionSetService {
@@ -14,7 +16,7 @@ public class QuestionSetService {
     @Autowired
     QuestionSetRepository questionSetDao;
 
-    //TODO: Create exception
+
     public void createQuestionSet(String name, String description) throws QuestionSetException {
 
         if(name == null || name.isEmpty()){
@@ -35,18 +37,17 @@ public class QuestionSetService {
     }
 
     private QuestionSet getQuestionSet(String qsName) {
-       return questionSetDao.findBySetName(qsName);
-        /*if(qs == null){
-
-            log.error("Error while retrieving question set with name: {}",qsName);
-            throw new QuestionSetException("Question set doesn't exists");
-        }*/
+       return questionSetDao.findBySetName(qsName)
+               .orElseThrow(() -> new QuestionSetException("Question set not found for: "+qsName));
     }
 
     public QuestionSet retrieveQuestionSet(String qsName) {
         return getQuestionSet(qsName);
     }
 
+    public List<QuestionSet> questionSetList(){
+        return questionSetDao.findAll();
+    }
     public void updateQuestionSet(QuestionSet newQs) throws QuestionSetException {
         QuestionSet oldQs = getQuestionSet(newQs.getSetName());
         oldQs.setDescription(newQs.getDescription());

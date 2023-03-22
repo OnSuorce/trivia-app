@@ -3,6 +3,7 @@ package com.onsuorce.trivia.service;
 import com.onsuorce.trivia.dao.CategoryRepository;
 import com.onsuorce.trivia.entity.Category;
 import com.onsuorce.trivia.entity.QuestionSet;
+import com.onsuorce.trivia.exceptions.Category.CategoryNotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,14 @@ public class CategoryService {
 
     public Category retrieveCategory(String categoryName, QuestionSet qs){
 
-        return categoryRepository.findByCategoryNameAndQuestionSet(categoryName,qs);
+        return categoryRepository.findByCategoryNameAndQuestionSet(categoryName,qs)
+                .orElseThrow(() -> new CategoryNotFoundException(
+                new StringBuilder()
+                        .append("Category ")
+                        .append(categoryName)
+                        .append(" for questionSet ")
+                        .append(qs.getSetName())
+                        .append(" not found").toString()));
     }
 
     public List<Category> retrieveCategoryList(QuestionSet qs){
