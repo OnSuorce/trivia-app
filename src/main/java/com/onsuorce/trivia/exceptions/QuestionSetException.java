@@ -12,4 +12,8 @@ public class QuestionSetException  extends RuntimeException {
     public QuestionSetException(String msg){
         super(msg);
     }
+
+    public QuestionSetException() {
+
+    }
 }

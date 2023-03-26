@@ -1,5 +1,6 @@
 package com.onsuorce.trivia.api.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.onsuorce.trivia.entity.pojo.answers.Option;
 import com.onsuorce.trivia.enums.AnswerTypes;
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AnswerDTO {
 
     @JsonProperty("matched")
