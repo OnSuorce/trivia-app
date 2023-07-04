@@ -56,4 +56,14 @@ public class QuestionController {
 
         questionService.createNewQuestion(body.getQuestionTitle(), body.getAnswer(), body.getCategoryName(), body.getQuestionSet());
     }
+
+    @PutMapping(path = "question/{uuid}")
+    public void updateQuestion(@PathVariable String uuid, @RequestBody QuestionCreationDTO newQuestion){
+        questionService.updateQuestion(uuid, newQuestion );
+    }
+
+    @DeleteMapping(path = "question/{uuid}")
+    public void deleteQuestion(@PathVariable String uuid){
+        questionService.deleteQuestion(uuid);
+    }
 }

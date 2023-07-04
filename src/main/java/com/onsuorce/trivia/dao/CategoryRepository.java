@@ -14,5 +14,5 @@ public interface CategoryRepository extends MongoRepository<Category, String> {
     Optional<Category> findByCategoryName(String categoryName);
 
    Optional<Category> findByCategoryNameAndQuestionSet(String categoryName, QuestionSet qs);
-    List<Category> findByQuestionSet(QuestionSet qs);
+   List<Category> findByQuestionSet(QuestionSet qs);
 }

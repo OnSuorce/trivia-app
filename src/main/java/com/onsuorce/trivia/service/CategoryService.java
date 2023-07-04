@@ -1,5 +1,6 @@
 package com.onsuorce.trivia.service;
 
+import com.onsuorce.trivia.api.dto.CategoryDTO;
 import com.onsuorce.trivia.dao.CategoryRepository;
 import com.onsuorce.trivia.entity.Category;
 import com.onsuorce.trivia.entity.QuestionSet;
@@ -41,12 +42,11 @@ public class CategoryService {
 
         return categoryRepository.findByCategoryNameAndQuestionSet(categoryName,qs)
                 .orElseThrow(() -> new CategoryNotFoundException(
-                new StringBuilder()
-                        .append("Category ")
-                        .append(categoryName)
-                        .append(" for questionSet ")
-                        .append(qs.getSetName())
-                        .append(" not found").toString()));
+                        "Category " +
+                                categoryName +
+                                " for questionSet " +
+                                qs.getSetName() +
+                                " not found"));
     }
 
     public List<Category> retrieveCategoryList(QuestionSet qs){
@@ -59,7 +59,20 @@ public class CategoryService {
         categoryRepository.delete(category);
     }
 
-    public void updateCategory(Category category){
+    public void updateCategory(String qs, String categoryNameOld, CategoryDTO categoryNew){
+
+        Category category = retrieveCategory(categoryNameOld,qsService.retrieveQuestionSet(qs));
+        if(categoryNew.getCategoryName()!=null && !categoryNew.getCategoryName().isEmpty()){
+            category.setCategoryName(categoryNew.getCategoryName());
+        }
+
+        if(categoryNew.getDescription()!=null && !categoryNew.getDescription().isEmpty()){
+            category.setDescription(categoryNew.getDescription());
+        }
+
+        categoryRepository.save(category);
+
+        log.info("Updated category {}", category);
 
     }
 }

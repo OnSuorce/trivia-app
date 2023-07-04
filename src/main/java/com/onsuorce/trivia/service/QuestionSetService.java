@@ -1,5 +1,6 @@
 package com.onsuorce.trivia.service;
 
+import com.onsuorce.trivia.api.dto.QuestionSetDTO;
 import com.onsuorce.trivia.dao.QuestionSetRepository;
 import com.onsuorce.trivia.entity.QuestionSet;
 import com.onsuorce.trivia.exceptions.QuestionSetException;
@@ -48,9 +49,18 @@ public class QuestionSetService {
     public List<QuestionSet> questionSetList(){
         return questionSetDao.findAll();
     }
-    public void updateQuestionSet(QuestionSet newQs) throws QuestionSetException {
-        QuestionSet oldQs = getQuestionSet(newQs.getSetName());
-        oldQs.setDescription(newQs.getDescription());
+    public void updateQuestionSet(QuestionSet oldQs, QuestionSetDTO newQs) throws QuestionSetException {
+
+        if(newQs.getDescription()!=null && !newQs.getDescription().isEmpty()){
+
+            oldQs.setDescription(newQs.getDescription());
+        }
+
+        if(newQs.getSetName()!=null && !newQs.getSetName().isEmpty()){
+
+            oldQs.setSetName(newQs.getSetName());
+        }
+
         questionSetDao.save(oldQs);
         log.info("Question set {} updated",oldQs.getSetName());
 

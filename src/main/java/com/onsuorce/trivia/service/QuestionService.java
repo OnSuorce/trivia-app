@@ -1,6 +1,7 @@
 package com.onsuorce.trivia.service;
 
 import com.onsuorce.trivia.api.dto.AnswerDTO;
+import com.onsuorce.trivia.api.dto.QuestionCreationDTO;
 import com.onsuorce.trivia.dao.CategoryRepository;
 import com.onsuorce.trivia.dao.QuestionRepository;
 import com.onsuorce.trivia.entity.Category;
@@ -90,5 +91,35 @@ public class QuestionService {
         return retrieveQuestion(UUID.fromString(uuid));
     }
 
+    public void updateQuestion(String uuidOldQuestion, QuestionCreationDTO newQuestion){
+
+        Question oldQuestion = retrieveQuestion(uuidOldQuestion);
+
+        if(newQuestion.getQuestionTitle() != null && !newQuestion.getQuestionTitle().isEmpty() ){
+
+            oldQuestion.setQuestionTitle(newQuestion.getQuestionTitle());
+        }
+
+        if(newQuestion.getCategoryName() != null && !newQuestion.getCategoryName().isEmpty() ){
+
+            oldQuestion.setCategory(categoryService.retrieveCategory(newQuestion.getCategoryName(),oldQuestion.getCategory().getQuestionSet()));
+        }
+
+        if(newQuestion.getAnswer() != null ){
+            oldQuestion.setAnswer(
+                    new Answer(newQuestion.getAnswer().getAnswerType()==null ?
+                            oldQuestion.getAnswer().getType() : newQuestion.getAnswer().getAnswerType()));
+            if (newQuestion.getAnswer().getOptions() != null && !newQuestion.getAnswer().getOptions().isEmpty()){
+                oldQuestion.getAnswer().setOptions(newQuestion.getAnswer().getOptions());
+            }
+
+        }
+
+        questionDao.save(oldQuestion);
+    }
+
+    public void deleteQuestion(String uuid){
+        questionDao.delete(retrieveQuestion(uuid));
+    }
 
 }

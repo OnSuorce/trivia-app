@@ -41,4 +41,9 @@ public class QuestionSetController {
         service.deleteQuestionSet(service.retrieveQuestionSet(name));
 
     }
+
+    @PutMapping("/{name}")
+    public void updateQuestionSet(@PathVariable String name, @RequestBody QuestionSetDTO body){
+        service.updateQuestionSet(service.retrieveQuestionSet(name),body);
+    }
 }

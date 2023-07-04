@@ -45,6 +45,7 @@ public class CategoryController {
     @PutMapping(path = "/{categoryName}")
     public void updateCategory(@PathVariable String qs,@PathVariable String categoryName, @RequestBody CategoryDTO category){
 
+        service.updateCategory(qs, categoryName,category);
     }
     @PostMapping()
     public void postCategory(@RequestBody CategoryDTO category){
