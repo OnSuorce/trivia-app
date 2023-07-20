@@ -9,12 +9,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface QuestionRepository extends MongoRepository<Question, String> {
     //TODO: Retrieve question by answertupe and category
 
-    Question findByUuid(String uuid);
+    Optional<Question> findByUuid(String uuid);
 
     List<Question> findByCategory(Category category);
 

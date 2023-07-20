@@ -15,10 +15,6 @@ public class QuestionCreationDTO {
     @JsonProperty("question_title")
     private String questionTitle;
 
-    @JsonProperty("category_name")
-    private String categoryName;
-    @JsonProperty("questionset")
-    private String questionSet;
 
     @JsonProperty("answer")
     private AnswerDTO answer;

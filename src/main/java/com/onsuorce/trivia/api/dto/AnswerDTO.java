@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -20,8 +21,10 @@ public class AnswerDTO {
     private Boolean matched;
 
     @JsonProperty("options")
-    private List<Option> options;
+    private Set<Option> options;
     @JsonProperty("answer_type")
     private AnswerTypes answerType;
+
+
 
 }

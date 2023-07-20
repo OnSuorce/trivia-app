@@ -5,13 +5,14 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
 @Data
 public class Answer {
     private final AnswerTypes type;
-    private List<Option> options;
+    private Set<Option> options;
 
     public Answer(AnswerTypes type) {
         this.type = type;
