@@ -4,6 +4,7 @@ import com.onsuorce.trivia.api.dto.QuestionSetDTO;
 import com.onsuorce.trivia.dao.QuestionSetRepository;
 import com.onsuorce.trivia.entity.QuestionSet;
 import com.onsuorce.trivia.exceptions.QuestionSetException;
+import com.onsuorce.trivia.exceptions.QuestionSetNameAlreadyUsedException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class QuestionSetService {
             throw new QuestionSetException("Name cannot be null");
         }
 
-        if(getQuestionSet(name) != null){
-            throw new QuestionSetException("Name is already in use");
+        if(!checkQuestionSetName(name)){
+            throw new QuestionSetNameAlreadyUsedException("Name is already in use");
         }
 
         questionSetDao.insert(
@@ -40,6 +41,11 @@ public class QuestionSetService {
     private QuestionSet getQuestionSet(String qsName) {
        return questionSetDao.findBySetName(qsName)
                .orElseThrow(() -> new QuestionSetException("Question set not found for: "+qsName));
+    }
+
+    private boolean checkQuestionSetName(String qsName) {
+        return questionSetDao.findBySetName(qsName).isEmpty();
+
     }
 
     public QuestionSet retrieveQuestionSet(String qsName) {
