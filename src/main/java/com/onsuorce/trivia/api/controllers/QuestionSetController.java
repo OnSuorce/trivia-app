@@ -38,7 +38,8 @@ public class QuestionSetController {
 
     @DeleteMapping("/{name}")
     public void deleteQuestionSet(@PathVariable String name) {
-        service.deleteQuestionSet(service.retrieveQuestionSet(name));
+
+        service.deleteQuestionSet(name);
 
     }
 

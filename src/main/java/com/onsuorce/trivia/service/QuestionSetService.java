@@ -39,8 +39,7 @@ public class QuestionSetService {
     }
 
     private QuestionSet getQuestionSet(String qsName) {
-       return questionSetDao.findBySetName(qsName)
-               .orElseThrow(() -> new QuestionSetException("Question set not found for: "+qsName));
+       return questionSetDao.findBySetName(qsName).orElse(null);
     }
 
     private boolean checkQuestionSetName(String qsName) {
@@ -49,7 +48,8 @@ public class QuestionSetService {
     }
 
     public QuestionSet retrieveQuestionSet(String qsName) {
-        return getQuestionSet(qsName);
+        return questionSetDao.findBySetName(qsName)
+                .orElseThrow(() -> new QuestionSetException("Question set not found for: "+qsName));
     }
 
     public List<QuestionSet> questionSetList(){
@@ -72,9 +72,9 @@ public class QuestionSetService {
 
     }
 
-    public void deleteQuestionSet(QuestionSet qs) throws QuestionSetException {
+    public void deleteQuestionSet(String setName) throws QuestionSetException {
 
-        getQuestionSet(qs.getSetName());
+        QuestionSet qs = getQuestionSet(setName);
 
         questionSetDao.delete(qs);
         log.info("Deleted {}",qs);
