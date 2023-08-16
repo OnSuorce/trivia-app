@@ -48,8 +48,8 @@ public class CategoryController {
         service.updateCategory(qs, categoryName,category);
     }
     @PostMapping()
-    public void postCategory(@RequestBody CategoryDTO category){
-        service.createCategory(category.getQuestionSet(), category.getCategoryName(), category.getDescription() );
+    public void postCategory(@RequestBody CategoryDTO category, @PathVariable String qs){
+        service.createCategory(qs, category.getCategoryName(), category.getDescription() );
     }
 
     private CategoryDTO categoryToDTO(Category c){

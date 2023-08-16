@@ -4,6 +4,7 @@ import com.onsuorce.trivia.api.dto.CategoryDTO;
 import com.onsuorce.trivia.dao.CategoryRepository;
 import com.onsuorce.trivia.entity.Category;
 import com.onsuorce.trivia.entity.QuestionSet;
+import com.onsuorce.trivia.exceptions.Category.CategoryCreationException;
 import com.onsuorce.trivia.exceptions.Category.CategoryNotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,12 @@ public class CategoryService {
                 .description(description)
                 .build();
 
-        categoryRepository.save(category);
+        try{
+            categoryRepository.save(category);
+        }catch (org.springframework.dao.DuplicateKeyException e){
+            throw new CategoryCreationException("Duplicate");
+        }
+
 
         log.info("{} Saved correctly", categoryName);
     }
