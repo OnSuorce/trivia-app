@@ -8,6 +8,4 @@ public class CategoryCreationException extends RuntimeException{
     public CategoryCreationException(String msg) {
         super(msg);
     }
-
-    //TODO
 }
