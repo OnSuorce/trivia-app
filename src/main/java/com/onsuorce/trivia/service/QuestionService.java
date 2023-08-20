@@ -7,6 +7,7 @@ import com.onsuorce.trivia.entity.Category;
 import com.onsuorce.trivia.entity.Question;
 import com.onsuorce.trivia.entity.pojo.answers.Answer;
 import com.onsuorce.trivia.entity.pojo.answers.Option;
+import com.onsuorce.trivia.enums.AnswerTypes;
 import com.onsuorce.trivia.exceptions.AnswerExceptions;
 import com.onsuorce.trivia.exceptions.QuestionException;
 import lombok.extern.log4j.Log4j2;
@@ -14,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -144,4 +147,9 @@ public class QuestionService {
         questionDao.delete(retrieveQuestion(uuid));
     }
 
+    public List<String> retrieveAnswerTypes() {
+        return Arrays.stream(AnswerTypes.values()).map(AnswerTypes::toString)
+                .collect(Collectors.toList());
+
+    }
 }

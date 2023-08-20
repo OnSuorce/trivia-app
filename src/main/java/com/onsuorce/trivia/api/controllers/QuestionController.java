@@ -9,7 +9,6 @@ import com.onsuorce.trivia.entity.pojo.answers.Option;
 import com.onsuorce.trivia.service.QuestionService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -76,5 +75,11 @@ public class QuestionController {
     @DeleteMapping(path = "question/{uuid}")
     public void deleteQuestion(@PathVariable String uuid){
         questionService.deleteQuestion(uuid);
+    }
+
+    @GetMapping(path = "question/types")
+    public List<String> getQuestion() {
+        return questionService.retrieveAnswerTypes();
+
     }
 }

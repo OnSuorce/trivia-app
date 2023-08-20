@@ -2,6 +2,7 @@ package com.onsuorce.trivia.entity.pojo.answers;
 
 import com.onsuorce.trivia.enums.AnswerTypes;
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @Data
 public class Answer {
+    @Getter
     private final AnswerTypes type;
     private Set<Option> options;
 
@@ -28,10 +30,6 @@ public class Answer {
         });
 
         return guessed.get();
-    }
-
-    public AnswerTypes getType() {
-        return type;
     }
 
 
